@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0/">
+    <title>PrivatBank</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+</head>
+<body>
+<div id="wrap">
+<div id="valutes">
+    <h1> Курсы валют</h1>
+    <!-- Блок по евро -->
+    <div id="eur">
+        <h3>Евро</h3>
+        <div id="eur_bs">
+            <p class="name_BS">Купля : <span id="eur_buy_vis"></span></p>
+            <p class="name_BS">Продажа : <span id="eur_sale_vis"></span></p>
+        </div>
+    </div>
+    <!-- Блок по рублям -->
+    <div id="rur">
+        <h3>Рубли</h3>
+        <div id="rur_bs">
+            <p class="name_BS">Купля : <span id="rur_buy_vis"></span></p>
+            <p class="name_BS">Продажа : <span id="rur_sale_vis"></span></p>
+        </div>
+    </div>
+    <!-- Блок по долларам -->
+    <div id="usd">
+        <h3>Доллары</h3>
+        <div id="usd_bs">
+            <p class="name_BS">Купля : <span id="usd_buy_vis"></span></p>
+            <p class="name_BS">Продажа : <span id="usd_sale_vis"></span></p>
+        </div>
+    </div>
+    <!-- Блок по Биткоинам -->
+    <div id="bit">
+        <h3>Биткоин (относительно доллара)</h3>
+        <div id="bit_bs">
+            <p class="name_BS">Купля : <span id="bit_buy_vis"></span></p>
+            <p class="name_BS">Продажа : <span id="bit_sale_vis"></span></p>
+        </div>
+    </div>
+
+</div>
+<div id="convertor">
+    <div>
+        <p>Сколько гривен хотите поменять?</p>
+        <input type="text" id="input_hrn">
+        <p>На что меняем?</p>
+        <select id="select">
+            <option data-type="val" value="usd">USD</option>
+            <option data-type="val" value="eur">EUR</option>
+            <option data-type="val" value="rur">RUR</option>
+        </select>
+        <button id="rez_button">Результат</button>
+        
+        <div id="res_wind"> </div>
+    </div>
+</div>
+
+</div>
+
+<script>
+   var users = [];
+   /* выбираем необходимые элементы*/
+   var eur_buy_vis = document.querySelector("#eur_buy_vis");
+   var eur_sale_vis = document.querySelector("#eur_sale_vis");
+   var rur_buy_vis = document.querySelector("#rur_buy_vis");
+   var rur_sale_vis = document.querySelector("#rur_sale_vis");
+   var usd_buy_vis = document.querySelector("#usd_buy_vis");
+   var usd_sale_vis = document.querySelector("#usd_sale_vis");
+   var bit_buy_vis = document.querySelector("#bit_buy_vis");
+   var bit_sale_vis = document.querySelector("#bit_sale_vis");
+   var hrn = document.querySelector("#input_hrn");
+   var convet_rez = document.querySelector("#res_wind");
+   var rez_button = document.querySelector("#rez_button");
+   var val_select = document.querySelector("#select");
+
+   var xhr = new XMLHttpRequest();
+   xhr.onload = function() {
+       users = this.response;
+       console.log(users); /*чтобы что-то делать с полученными данными надо писать внутри этой функции*/
+       /*запись в тег определённых элементов массива*/
+       eur_buy_vis.innerHTML = users[0].buy;
+       eur_sale_vis.innerHTML = users[0].sale;
+       rur_buy_vis.innerHTML = users[1].buy;
+       rur_sale_vis.innerHTML = users[1].sale;
+       usd_buy_vis.innerHTML = users[2].buy;
+       usd_sale_vis.innerHTML = users[2].sale;
+       bit_buy_vis.innerHTML = users[3].buy;
+       bit_sale_vis.innerHTML = users[3].sale;
+
+       var usd = users[2].sale;
+       var eur = users[0].sale;
+       var rur = users[1].sale;
+
+      /* var inp = document.querySelector("#select");
+       for (var i = 0; i < inp.length; i++) {
+           if (inp[i].data-type == 'val' && inp[i].selected) {
+               console.log(inp)
+           }
+       }
+*/
+
+       val_select.onclick = function(e) {
+           var val_type = e.target.getAttribute('val');
+          var var_rez = val_type.selected;
+           console.log(var_rez);
+       }
+
+
+
+
+
+
+      rez_button.onclick = function () {
+           users.forEach(function () {
+
+           })
+       }
+
+
+
+
+       console.log('finsh')
+   };
+   xhr.open("GET", " https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5");
+   xhr.responseType = "json";
+   xhr.send();
+</script>
+
+
+</body>
+</html>
